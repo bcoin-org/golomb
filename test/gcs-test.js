@@ -58,33 +58,37 @@ let filter3 = null;
 let filter4 = null;
 let filter5 = null;
 
-function b(str) {
-  return Buffer.from(str, 'hex');
-}
-
 describe('GCS', function() {
   it('should test sipmod', () => {
+    const value = Buffer.from([0xab]);
     const key = Buffer.from('9dcb553a73b4e2ae9316f6b25f848656', 'hex');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0, 100)).toString(),
+      sipmod(value, key, U64(0, 100)).toString(),
       '83');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(100, 100)).toString(),
+      sipmod(value, key, U64(100, 100)).toString(),
       '357994713586');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0, 0x1fffffff)).toString(),
+      sipmod(value, key, U64(0, 0x1fffffff)).toString(),
       '447493391');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0, 0xffffffff)).toString(),
+      sipmod(value, key, U64(0, 0xffffffff)).toString(),
       '3579947134');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0x000000ff, 0xffffffff)).toString(),
+      sipmod(value, key, U64(0x000000ff, 0xffffffff)).toString(),
       '916466466568');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0x1fffffff, 0xffffffff)).toString(),
+      sipmod(value, key, U64(0x1fffffff, 0xffffffff)).toString(),
       '1921969483298145877');
+
     assert.strictEqual(
-      sipmod(b('abc'), key, U64(0xffffffff, 0xffffffff)).toString(),
+      sipmod(value, key, U64(0xffffffff, 0xffffffff)).toString(),
       '15375755866385167029');
   });
 
