@@ -50,7 +50,7 @@ reduce64(const uint64_t a, const uint64_t b) {
   return ((uint128_t)a * b) >> 64;
 #elif defined(_MSC_VER)
   return __umulh(a, b);
-#elif
+#else
   uint64_t ahi = a >> 32;
   uint64_t alo = a & 0xffffffff;
   uint64_t bhi = b >> 32;
