@@ -34,6 +34,35 @@ read64(const void *src) {
 #endif
 }
 
+#ifdef __GNUC__
+#ifdef __SIZEOF_INT128__
+typedef unsigned __int128 uint128_t;
+#else
+typedef unsigned uint128_t __attribute__((mode(TI)));
+#endif
+#endif
+
+static inline uint64_t
+reduce64(const uint64_t a, const uint64_t b) {
+#ifdef __GNUC__
+  return (uint64_t)(((uint128_t)a * (uint128_t)b) >> 64);
+#elif
+  uint64_t ahi = a >> 32;
+  uint64_t alo = a & 0xffffffff;
+  uint64_t bhi = b >> 32;
+  uint64_t blo = b & 0xffffffff;
+
+  uint64_t axbhi = ahi * bhi;
+  uint64_t axbmid = ahi * blo;
+  uint64_t bxamid = bhi * alo;
+  uint64_t axblo = alo * blo;
+
+  uint64_t c = (axbmid & 0xffffffff) + (bxamid & 0xffffffff) + (axblo >> 32);
+
+  return axbhi + (axbmid >> 32) + (bxamid >> 32) + (c >> 32);
+#endif
+}
+
 uint64_t
 golomb_siphash(
   const uint8_t *data,
@@ -100,19 +129,8 @@ golomb_sipmod(
   const uint8_t *data,
   size_t len,
   const uint8_t *key,
-  const uint32_t nhi,
-  const uint32_t nlo
+  const uint64_t m
 ) {
   uint64_t v = golomb_siphash(data, len, key);
-  uint64_t vhi = v >> 32;
-  uint64_t vlo = v & 0xffffffff;
-
-  uint64_t vnphi = vhi * nhi;
-  uint64_t vnpmid = vhi * nlo;
-  uint64_t npvmid = nhi * vlo;
-  uint64_t vnplo = vlo * nlo;
-
-  uint64_t c = (vnpmid & 0xffffffff) + (npvmid & 0xffffffff) + (vnplo >> 32);
-
-  return vnphi + (vnpmid >> 32) + (npvmid >> 32) + (c >> 32);
+  return reduce64(v, m);
 }

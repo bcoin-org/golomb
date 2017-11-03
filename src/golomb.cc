@@ -38,13 +38,14 @@ NAN_METHOD(sipmod) {
   const uint8_t *kdata = (const uint8_t *)node::Buffer::Data(kbuf);
   size_t klen = node::Buffer::Length(kbuf);
 
-  const uint32_t nhi = info[2]->Uint32Value();
-  const uint32_t nlo = info[3]->Uint32Value();
-
   if (klen < 16)
     return Nan::ThrowError("Bad key size for siphash.");
 
-  uint64_t result = golomb_sipmod(data, len, kdata, nhi, nlo);
+  const uint32_t mhi = info[2]->Uint32Value();
+  const uint32_t mlo = info[3]->Uint32Value();
+  const uint64_t m = ((uint64_t)mhi << 32) | mlo;
+
+  uint64_t result = golomb_sipmod(data, len, kdata, m);
 
   v8::Local<v8::Array> ret = Nan::New<v8::Array>();
   ret->Set(0, Nan::New<v8::Int32>((int32_t)(result >> 32)));

@@ -12,8 +12,7 @@ golomb_sipmod(
   const uint8_t *data,
   size_t len,
   const uint8_t *key,
-  const uint32_t nhi,
-  const uint32_t nlo
+  const uint64_t m
 );
 
 #endif
