@@ -17,7 +17,7 @@
 
 static inline uint64_t
 read64(const void *src) {
-#ifdef GOLOMB_LITTLE_ENDIAN
+#if defined(GOLOMB_LITTLE_ENDIAN)
   uint64_t w;
   memcpy(&w, src, sizeof w);
   return w;
@@ -34,18 +34,22 @@ read64(const void *src) {
 #endif
 }
 
-#ifdef __GNUC__
-#ifdef __SIZEOF_INT128__
+#if defined(__GNUC__)
+#if defined(__SIZEOF_INT128__)
 typedef unsigned __int128 uint128_t;
 #else
 typedef unsigned uint128_t __attribute__((mode(TI)));
 #endif
+#elif defined(_MSC_VER)
+#include <intrin.h>
 #endif
 
 static inline uint64_t
 reduce64(const uint64_t a, const uint64_t b) {
-#ifdef __GNUC__
-  return (uint64_t)(((uint128_t)a * (uint128_t)b) >> 64);
+#if defined(__GNUC__)
+  return ((uint128_t)a * b) >> 64;
+#elif defined(_MSC_VER)
+  return __umulh(a, b);
 #elif
   uint64_t ahi = a >> 32;
   uint64_t alo = a & 0xffffffff;
