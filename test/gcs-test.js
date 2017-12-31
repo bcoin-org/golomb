@@ -7,7 +7,6 @@ const crypto = require('crypto');
 const {U64} = require('n64');
 const assert = require('./util/assert');
 const GCSFilter = require('../lib/golomb');
-const sipmod = require('../lib/sipmod');
 
 const key = crypto.randomBytes(16);
 const P = 20;
@@ -59,39 +58,6 @@ let filter4 = null;
 let filter5 = null;
 
 describe('GCS', function() {
-  it('should test sipmod', () => {
-    const value = Buffer.from([0xab]);
-    const key = Buffer.from('9dcb553a73b4e2ae9316f6b25f848656', 'hex');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0, 100)).toString(),
-      '83');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(100, 100)).toString(),
-      '357994713586');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0, 0x1fffffff)).toString(),
-      '447493391');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0, 0xffffffff)).toString(),
-      '3579947134');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0x000000ff, 0xffffffff)).toString(),
-      '916466466568');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0x1fffffff, 0xffffffff)).toString(),
-      '1921969483298145877');
-
-    assert.strictEqual(
-      sipmod(value, key, U64(0xffffffff, 0xffffffff)).toString(),
-      '15375755866385167029');
-  });
-
   it('should test GCS filter build', () => {
     filter1 = GCSFilter.fromItems(P, key, contents1);
     assert(filter1);

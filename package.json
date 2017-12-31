@@ -18,7 +18,6 @@
   "author": "Christopher Jeffrey <chjjeffrey@gmail.com>",
   "main": "./lib/golomb.js",
   "scripts": {
-    "install": "node-gyp rebuild || echo 'Build failed.'",
     "browserify": "browserify -s golomb lib/golomb.js | uglifyjs -c > golomb.js",
     "clean": "rm -f golomb.js",
     "lint": "eslint lib/ test/ || exit 0",
@@ -26,10 +25,8 @@
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
-    "bcrypto": "~0.0.1",
-    "bindings": "~1.3.0",
-    "n64": "~0.1.0",
-    "nan": "~2.8.0"
+    "bcrypto": "~0.0.2",
+    "n64": "~0.1.0"
   },
   "devDependencies": {
     "babelify": "^8.0.0",
@@ -50,6 +47,5 @@
     "transform": [
       "babelify"
     ]
-  },
-  "gypfile": true
+  }
 }
