@@ -4,7 +4,6 @@
 'use strict';
 
 const crypto = require('crypto');
-const {U64} = require('n64');
 const assert = require('./util/assert');
 const GCSFilter = require('../lib/golomb');
 
