@@ -4,7 +4,7 @@
 'use strict';
 
 const crypto = require('crypto');
-const assert = require('./util/assert');
+const assert = require('bsert');
 const GCSFilter = require('../lib/golomb');
 
 const key = crypto.randomBytes(16);
