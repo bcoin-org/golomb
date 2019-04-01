@@ -1,6 +1,6 @@
 {
   "name": "golomb",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "description": "Golomb coded sets for javascript",
   "keywords": [
     "coded",
