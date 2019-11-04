@@ -24,6 +24,8 @@
   "dependencies": {
     "bcrypto": "~4.0.1",
     "bsert": "~0.0.10",
+    "buffer-map": "~0.0.3",
+    "bufio": "~1.0.6",
     "n64": "~0.2.9"
   },
   "devDependencies": {
