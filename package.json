@@ -1,6 +1,6 @@
 {
   "name": "golomb",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Golomb coded sets for javascript",
   "keywords": [
     "coded",
@@ -22,7 +22,7 @@
     "test": "bmocha --reporter spec test/*-test.js"
   },
   "dependencies": {
-    "bcrypto": "~4.3.0",
+    "bcrypto": "~5.0.0",
     "bsert": "~0.0.10",
     "bufio": "~1.0.6",
     "n64": "~0.2.10"
